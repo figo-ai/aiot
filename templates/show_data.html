@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<a href='{{name}}' target="_blank">Download Excel</a>
+<head>
+    <meta charset="utf-8" />
+    <script>
+  </script>
+    <title>
+    
+    </title>
+</head>
+<body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size: 10pt">
+
+        <tbody>
+            <tr>
+                <td class="cont" style="height: 343px">
+
+                    <!-- 表 1.1.5 將內容物框起 此為透明表格 -->
+                    <table style="height:100%" cellspacing="0" cellpadding="0" width="100%" border="0">
+                        <tbody>
+                            <tr>
+                                <td style="PADDING-RIGHT: 6px; PADDING-LEFT: 6px; PADDING-TOP: 6px; height: 343px;" valign="top">
+
+                                    
+                                    
+
+                                    <br>
+
+
+                                    
+                                    <br>
+                                    <div id="info_content">
+                                        <div class="block1">
+
+                                            <table id="Table1" class="form1" border="0">
+                                                <tbody>
+                                                    <tr class="title_line" style="height:30px;">
+                                                    {% for i in range(0, len_columns) %}
+                                                        <td title="NO" align="center" style="width:120px;">{{columns[i]}}</td>
+                                                    {% endfor %}
+                                                    </tr>
+                                                    
+                                                    <tr class="record2">
+                                                        {% for j in range(0, len_alldata1) %}
+                                                            <td  align="left" >{% for k in range(0, len_alldata2) %} {{alldata[j][k]}}<br> {% endfor %}</td>
+                                                        {% endfor %}
+                                                    </tr>
+                                                    <tr class="record2">
+                                                        <td  </td>
+                                                    </tr>
+                                                    
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>  <!-- 表 1.1.5  -->
+                    <span id="MSG"></span>
+                </td> <!-- End of Program Body Area -->
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

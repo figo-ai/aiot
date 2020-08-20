@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width ,initial-scale=1.0">
+	<title>辨識 17 個身體關節點</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">	
+    <script type=text/javascript src="{{url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script type=text/javascript src="{{url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+
+    <form name="MyUploadForm">
+    <h4>選擇上傳影像檔 (mp4,wmv,flv,mov,avi) 上限 100 MB</h4>
+    <div>
+      <p><input type="file" name="file" accept=".mp4,.wmv,.flv,.mov,.avi"></p>
+    </div>
+        <div class="btn-group-vertical" data-toggle="buttons">
+        <label class="btn btn-primary active">
+            <input type="radio" name="options" id="option1" value="1" autocomplete="off" checked> 辨識 17 個身體關節點
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option2" value="2" autocomplete="off"> 辨識 64 個 face keypoints (不含額頭)
+        </label>
+        <label class="btn btn-primary">
+            <input type="radio" name="options" id="option3" value="3" autocomplete="off"> 辨識 82 個 face keypoints (含額頭) 
+        </label>
+        </div>
+      <p><input type="submit" value="上傳"></p>
+    </form>
+
+<div class="container" style="display: none;">
+  <div class="contitle"><h2>Uploading....</h2></div>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">0%</div>
+  </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $('form').on('submit', function (event) {
+        // 显示进度条
+        $('.container').css('display', 'inline');
+        // 阻止元素发生默认的行为，此处用来阻止对表单的提交
+        event.preventDefault();
+        var formData = new FormData(this);
+        var val= $("input[name='options']:checked").val();
+        formData.append("options",val);
+        // jQuery Ajax 上传文件，关键在于设置：processData 和 contentType
+        $.ajax({
+            xhr: function () {
+                var xhr = new XMLHttpRequest();
+                xhr.upload.addEventListener('progress', function (e) {
+                    if (e.lengthComputable) {
+                        var percent = Math.round(e.loaded * 100 / e.total);
+                        $('.progress-bar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+                    }
+                });
+                return xhr;
+            },
+            type: 'POST',
+            url: '/upload',
+            cache: false,
+            data: formData,
+            // 告诉 jQuery 不要去处理发送的数据
+            processData: false,
+            // 告诉 jQuery 不要去设置 Content-Type 请求头
+            // 因为这里是由 <form> 表单构造的 FormData 对象，且已经声明了属性 enctype="multipart/form-data"，所以设置为 false
+            contentType: false
+        }).done(function (res) {
+            //console.log(res)
+            //var result = $.parseJSON(res); 
+            //alert('上传成功! token:'+ res.token);
+            // 隐藏上传的控件
+            $('form').css('display', 'none');
+            //得到用户token
+            //建议可以把token存在网页端的其他控件Value里面 这样可以透过Jquery取
+            var t = res.token
+            $('.contitle').html('處理中');
+            //执行定时任务
+            status = setInterval(getprocess,1000,t)
+        }).fail(function (res) {
+            alert('上传失败!');
+            $('.container').css('display', 'none');
+        });
+    });
+
+    
+    function getprocess(token){
+        var params = {
+            'token':token,
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/getprocess',
+            async: false,
+            cache: false,
+            data: params, 
+            success: function(response) {
+                // 解析进度
+                console.log(response)
+                //var result = $.parseJSON(response);
+                var percent = Math.round(response.current*100 / response.total);
+                $('.progress-bar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
+                if ( percent >= 100){
+                alert('處理完成');
+                clearInterval(status);
+                // 这里可以去处理其他的选项(请求)或是打开其他网址
+                window.location.href='http://140.138.143.167:5000/show';
+                }               
+            },
+            dataType: 'json',
+            timeout: 5000,// 超时时间
+            // 超时意味着出错了
+            error: function (error) {
+              $('.contitle').html('處理錯誤');
+              //$('.container').css('display', 'none');
+              clearInterval(status);
+            }
+
+        });
+
+    }
+    
+</script>
+
+</body>
+</html>
+

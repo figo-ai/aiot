@@ -1,0 +1,42 @@
+﻿{% extends "base.html" %}
+
+{% block title %}AI Server: Body Joints Recognition {% endblock %}
+
+{% block main %}
+    <div class="container welcome">
+        <h4> 辨識 17 個身體關節點 </h4>
+    </div>
+
+    <!-- 影像檔上傳 -->
+    <h4>選擇上傳影像檔 (mp4,wmv,flv,mov,avi) 上限 100 MB</h4>
+    <form method="POST" action="upload" enctype="multipart/form-data">
+    <div>
+      <p><input type="file" name="file" accept=".mp4,.wmv,.flv,.mov,.avi"></p>
+      <p><input type="hidden" name="MyType" value="Norway"></p>
+    </div>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+    
+    
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <h4> 選擇關節點數據呈現方式 </h4> 
+        </a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="javascript:clickEvent()">Video</a>
+            <a class="dropdown-item" href="javascript:clickEvent()">Scatter plot</a>
+            <a class="dropdown-item" href="javascript:clickEvent()">Line plot</a>
+            <a class="dropdown-item" href="javascript:clickEvent()">Raw data</a>
+        </div>
+    </li>
+    
+    
+        <script type=text/javascript>
+        function clickEvent() {
+        alert('hello world')
+        console.log(111);
+        }
+        </script>
+
+
+{% endblock %}

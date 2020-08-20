@@ -1,0 +1,21 @@
+﻿{% extends "base.html" %}
+
+{% block title %}AI Server: Face Keypoints Recognition {% endblock %}
+
+{% block main %}
+
+  <div class="container welcome">
+          <h4> 辨識 64 個 face keypoints (不含額頭) </h4>
+  </div>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+    <h4> 數據呈現方式 </h4>
+    </a>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Video</a>
+        <a class="dropdown-item" href="#">Raw data</a>
+    </div>
+    </li>
+
+{% endblock %}
