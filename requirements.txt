@@ -20,7 +20,7 @@ cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
 diff-match-patch @ file:///tmp/build/80754af9/diff-match-patch_1594828741838/work
-dlib @ file:///C:/Users/2526/Downloads/dlib-19.8.1-cp36-cp36m-win_amd64.whl
+dlib-19.8.1-cp36-cp36m-win_amd64.whl
 docutils==0.16
 dominate==2.5.1
 entrypoints==0.3
